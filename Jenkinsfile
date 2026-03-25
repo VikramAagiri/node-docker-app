@@ -32,10 +32,15 @@ pipeline {
         } */
         
         stage('Create container') {
-            steps {
-                sh 'docker run -d -p 3000:8080 vikramaagiri/node-docker-app:${BUILD_NUMBER}'
-            }
-        }
+    steps {
+        sh '''
+        docker stop node-app || true
+        docker rm node-app || true
+        docker run -d -p 3000:8080 --name node-app vikramaagiri/node-docker-app:${BUILD_NUMBER}
+        '''
+    }
+}
+    
 
 
 
